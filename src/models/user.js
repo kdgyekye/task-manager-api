@@ -73,7 +73,7 @@ userSchema.methods.toJSON = function() {
     const userObject = this.toObject();
 
     delete userObject.password;
-    delete userObject.tokens;
+    //delete userObject.tokens;
     return userObject
 }
 // Set up logging in method
