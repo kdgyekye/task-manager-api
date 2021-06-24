@@ -2,6 +2,7 @@ const express = require('express');
 require('./db/mongoose')
 const userRouter = require('./routes/userRoute');
 const taskRouter = require('./routes/taskRoute');
+const categoryRouter = require('./routes/categoryRoute')
 const User = require('./models/user');
  
 const app = express();
@@ -15,7 +16,7 @@ const port = process.env.PORT || 8080
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
-
+app.use(categoryRouter)
 
 app.post('/login', async (req,res) => {
     try {

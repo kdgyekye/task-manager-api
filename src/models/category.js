@@ -11,7 +11,6 @@ const categorySchema = new mongoose.Schema(
 
     }
 )
-
 categorySchema.virtual('Tasks', {
     ref: 'Task',
     localField: 'categoryName',

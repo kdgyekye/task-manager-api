@@ -21,7 +21,7 @@ router.get('/tasks', authMiddleware, async(req,res) => {
     try {
         const match = {}
         if (req.query.completed) {
-            match.completed = req.query.completed === 'true'
+            match.completed = req.query.completed === 'false'
         }
         // const tasks = await Task.find({creator: req.profile._id})
         await req.profile.populate({
@@ -85,6 +85,7 @@ router.patch('/tasks/:id', authMiddleware, async(req,res) => {
 router.delete('/tasks/:id', authMiddleware, async(req,res) => {
     try {
         const deletedTask = await Task.deleteOne({_id: req.params.id, creator: req.profile._id});
+        console.log(deletedTask)
         if (deletedTask.n === 0) {
             return res.status(404).send({error: 'USER NOT FOUND!'});
         }
