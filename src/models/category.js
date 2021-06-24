@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const Task = require('./task')
 
-const categoriesSchema = new mongoose.Schema(
+const categorySchema = new mongoose.Schema(
     {
         categoryName: {
             type: String,
@@ -11,4 +12,12 @@ const categoriesSchema = new mongoose.Schema(
     }
 )
 
-const Category = new mongoose.model('Cateogry', categoriesSchema)
+categorySchema.virtual('Tasks', {
+    ref: 'Task',
+    localField: 'categoryName',
+    foreignField: 'category'
+})
+
+const Category = new mongoose.model('Category', categorySchema);
+
+module.exports = Category;

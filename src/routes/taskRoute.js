@@ -6,7 +6,7 @@ const Task = require('../models/task')
 router.post('/tasks', authMiddleware, async(req,res) => {
     const task = new Task({
         ...req.body,
-        creator: req.profile._id
+        creator: req.profile._id,
     })
     try{
         newTask = await task.save()
