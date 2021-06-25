@@ -26,17 +26,19 @@ router.get('/categories', authMiddleware, async(req,res) => {
 
 router.get('/categoryTasks/:category', authMiddleware, async(req,res) => {
     try {
-        await Category.populate({
+        category = await Category.findOne({categoryName: req.params.category})
+        console.log(category)
+        await category.populate({
             path: 'Tasks',
             options: {
                 limit: parseInt(req.query.limit),
                 skip: parseInt(req.query.skip)
             }
         }).execPopulate();
-        if (Category.Tasks.length < 1) {
+        if (category.Tasks.length < 1) {
             res.status(404).send('There are no tasks under this category')
         }
-        res.status(200).send(Category.Tasks)
+        res.status(200).send(category.Tasks)
     } catch(e) {
         res.status(500).send('Something went wrong: '+e)
         console.log(e)
