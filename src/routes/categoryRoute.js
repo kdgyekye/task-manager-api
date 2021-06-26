@@ -24,7 +24,7 @@ router.get('/categories', authMiddleware, async(req,res) => {
 
 })
 
-router.get('/categoryTasks/:category', authMiddleware, async(req,res) => {
+router.get('/categories/:category', authMiddleware, async(req,res) => {
     try {
         category = await Category.findOne({categoryName: req.params.category})
         console.log(category)
