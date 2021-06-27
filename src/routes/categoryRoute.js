@@ -28,24 +28,34 @@ router.get('/tasksCategories', authMiddleware, async(req,res) => {
     try {
         const categories = await Category.find();
         if (Array.isArray(categories)) {
-            categories.map(
+            const newCategories = categories.map(
                 async category => {
                    await category.populate('Tasks').execPopulate();
                    const categoryTasks = category.Tasks
-                   
                    if (categoryTasks.length > 0) {
-                    return {category: categoryTasks}  ;                     
+                    console.log('Categories: ',{category: {
+                        _id: category._id,
+                        categoryName: category.categoryName,
+                        tasks: categoryTasks
+                    }})
+                    return {category: {
+                        _id: category._id,
+                        categoryName: category.categoryName,
+                        tasks: categoryTasks
+                    }};                     
                    }
-                   return null;
-                   
                 } 
             )
-            res.status(200).send(categories)
+            newCategories?(
+                console.log('newCat: ',newCategories)
+                //res.status(200).send(newCategories);
+            )
+            :
+            res.status(404).send('NOT FOUND')
         }
-        return []
     }
     catch (e) {
-        res.status(500).send('An error occured: '+e)
+        res.status(500).send('An error occured: '+e);
     }
 })
 
