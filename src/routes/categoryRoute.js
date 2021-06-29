@@ -28,7 +28,7 @@ router.get('/tasksCategories', authMiddleware, async(req,res) => {
     try {
         const categories = await Category.find();
         if (Array.isArray(categories)) {
-            const newCategories = categories.map(
+            res.status(200).send(categories.map(
                 async category => {
                    await category.populate('Tasks').execPopulate();
                    const categoryTasks = category.Tasks
@@ -44,14 +44,14 @@ router.get('/tasksCategories', authMiddleware, async(req,res) => {
                         tasks: categoryTasks
                     }};                     
                    }
-                } 
+                } )
             )
-            newCategories?(
-                console.log('newCat: ',newCategories)
-                //res.status(200).send(newCategories);
-            )
-            :
-            res.status(404).send('NOT FOUND')
+            // newCategories?(
+            //     console.log('newCat: ',newCategories)
+            //     //res.status(200).send(newCategories);
+            // )
+            // :
+            // res.status(404).send('NOT FOUND')
         }
     }
     catch (e) {
