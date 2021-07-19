@@ -27,32 +27,37 @@ router.get('/categories', authMiddleware, async(req,res) => {
 router.get('/tasksCategories', authMiddleware, async(req,res) => {
     try {
         const categories = await Category.find();
+        console.log(typeof(categories))
         if (Array.isArray(categories)) {
-            res.status(200).send(categories.map(
-                async category => {
-                   await category.populate('Tasks').execPopulate();
-                   const categoryTasks = category.Tasks
-                   if (categoryTasks.length > 0) {
-                    console.log('Categories: ',{category: {
-                        _id: category._id,
-                        categoryName: category.categoryName,
-                        tasks: categoryTasks
-                    }})
-                    return {category: {
-                        _id: category._id,
-                        categoryName: category.categoryName,
-                        tasks: categoryTasks
-                    }};                     
-                   }
-                } )
-            )
-            // newCategories?(
-            //     console.log('newCat: ',newCategories)
-            //     //res.status(200).send(newCategories);
-            // )
-            // :
-            // res.status(404).send('NOT FOUND')
+            // let categoryTasksArray = []
+            // categories.forEach( async category => {
+            //     await category.populate('Tasks').execPopulate();
+            //     const categoryTasks = category.Tasks
+            //     if (categoryTasks.length > 0 ) {
+            //         //let taskCategoryObject = 
+            //         categoryTasksArray = categoryTasksArray.concat({
+            //             _id: category._id,
+            //             categoryName: category.categoryName,
+            //             tasks: categoryTasks
+            //         })
+            //     }
+            //     console.log('No. of categories: ',categoryTasksArray.length)
+            //     console.log(categoryTasksArray)
+            // });
+            const cTasks = await Promise.all(categories.map( async (category) => {
+                await category.populate('Tasks').execPopulate();
+                let categoryTasks = category.Tasks;
+                return({
+                    _id: category._id,
+                    categoryName: category.categoryName,
+                    tasks: categoryTasks
+                })
+            }))
+            console.log('CTA: ',cTasks)
+            res.status(200).send(cTasks)
+
         }
+
     }
     catch (e) {
         res.status(500).send('An error occured: '+e);
