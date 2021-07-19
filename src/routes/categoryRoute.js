@@ -29,21 +29,6 @@ router.get('/tasksCategories', authMiddleware, async(req,res) => {
         const categories = await Category.find();
         console.log(typeof(categories))
         if (Array.isArray(categories)) {
-            // let categoryTasksArray = []
-            // categories.forEach( async category => {
-            //     await category.populate('Tasks').execPopulate();
-            //     const categoryTasks = category.Tasks
-            //     if (categoryTasks.length > 0 ) {
-            //         //let taskCategoryObject = 
-            //         categoryTasksArray = categoryTasksArray.concat({
-            //             _id: category._id,
-            //             categoryName: category.categoryName,
-            //             tasks: categoryTasks
-            //         })
-            //     }
-            //     console.log('No. of categories: ',categoryTasksArray.length)
-            //     console.log(categoryTasksArray)
-            // });
             const cTasks = await Promise.all(categories.map( async (category) => {
                 await category.populate('Tasks').execPopulate();
                 let categoryTasks = category.Tasks;
