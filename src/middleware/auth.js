@@ -8,6 +8,7 @@ const authMiddleware = async (req,res,next) => {
         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token})
         
         if (!user) {
+            console.log('Auth error')
             throw new Error('Authentication Error')
         }
         
