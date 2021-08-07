@@ -45,7 +45,7 @@ router.get('/users/profile', authMiddleware, async (req,res) => {
 router.patch('/users/profile', authMiddleware, async(req,res) => {
     //const _id = req.params.id;
 
-    const allowedParams = ['name','email','password','age'];
+    const allowedParams = ['name','email','password','age','avatar'];
     const updateKeys = Object.keys(req.body);
      const validUpdate = updateKeys.every((key) => allowedParams.includes(key));
 
