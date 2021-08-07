@@ -50,7 +50,7 @@ router.patch('/users/profile', authMiddleware, async(req,res) => {
      const validUpdate = updateKeys.every((key) => allowedParams.includes(key));
 
     if (!validUpdate) {
-       return res.status(400).send('INVALID UPDATE KEYS!')
+       return res.status(400).send({error: 'INVALID UPDATE KEYS!'})
     }
 
     try {
@@ -93,7 +93,7 @@ router.get('/users/:id/avatar', async (req, res) => {
         res.send(user.avatar)
     }
     catch (error) {
-        res.status(404).send('NOT FOUND'+error)
+        res.status(404).send({error: 'NOT FOUND '+error})
     }
 
 })
