@@ -74,10 +74,10 @@ const upload = multer({
     }
 })
 
-router.post('/users/profile/avatar', authMiddleware, upload.single('upload'), (req,res) => {
+router.post('/users/profile/avatar', authMiddleware, upload.single('upload'), async (req,res) => {
     const avatar = req.file.buffer
     req.profile.avatar = avatar
-    req.profile.save()
+    await req.profile.save()
     res.send()
 }, (error,req,res,next) => {
     res.status(400).send({error: error.message})
