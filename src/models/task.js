@@ -31,7 +31,7 @@ taskSchema.pre('save', async function() {
 
     if (!existingCategory) {
         newCategory = new Category({categoryName: this.category})
-        await newCategory.save()
+        return await newCategory.save()
     }
     console.log('Category: ',existingCategory)
 })
