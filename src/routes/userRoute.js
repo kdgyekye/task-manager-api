@@ -4,11 +4,13 @@ const router = express.Router();
 const User = require('../models/user');
 const multer = require('multer');
 const sharp = require('sharp');
+const {welcomeEmail} = require('../email/account')
 
 router.post('/users', async (req,res) => {
     const newUser = new User(req.body);
     console.log(newUser);
-
+    console.log(newUser.email, newUser.name.split(' ')[0])
+    welcomeEmail(newUser.email, newUser.name.split(' ')[0])
     try{
         const userToken = await newUser.generateAuthToken()
         res.status(201).send({message: 'User created successfully',user: newUser, userToken})
